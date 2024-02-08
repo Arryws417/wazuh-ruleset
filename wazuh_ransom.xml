@@ -1,0 +1,82 @@
+<!-- Custom ruleset for detecting ransomware-->
+<group name="sysmon">
+  <rule id="100736" level="14">
+    <if_sid>1</if_sid>
+    <match>Process \w+ (\w+:){4,}Crypto++</match>
+    <options>alert_by_email</options>
+    <description>Detected Crypto++ library (potential ransomware)</description>
+  </rule>
+
+  <rule id="100737" level="14">
+    <if_sid>1</if_sid>
+    <match>Process \w+ (\w+:){4,}encrypt</match>
+    <options>alert_by_email</options>
+    <description>Detected encryption-related process (potential ransomware)</description>
+  </rule>
+
+  <rule id="100738" level="10">
+    <if_sid>1</if_sid>
+    <match>Process \w+ (\w+:){4,}\\.exe </match>
+    <options>no_full_log</options>
+    <description>Detected suspicious executable process (potential ransomware)</description>
+  </rule>
+
+  <rule id="100739" level="10">
+    <if_sid>2</if_sid>
+    <match>RegSetValue:.*Software\\(Wow6432Node\\)\\Microsoft\\Windows\\CurrentVersion\\Run\\</match>
+    <options>no_full_log</options>
+    <description>Registry modification in Run key (potential ransomware)</description>
+  </rule>
+
+  <rule id="100740" level="10">
+    <if_sid>1</if_sid>
+    <match>Network connection \d+.\d+.\d+.\d+:\d+ -> \d+.\d+.\d+.\d+:\d+</match>
+    <options>no_full_log</options>
+    <description>Detected suspicious network connection (potential ransomware)</description>
+  </rule>
+
+  <rule id="100741" level="12">
+    <if_sid>1</if_sid>
+    <match>File \w+ (\w+:){4,}ransom</match>
+    <options>no_full_log</options>
+    <description>Detected file with 'ransom' in the name (potential ransomware)</description>
+  </rule>
+
+  <rule id="100742" level="12">
+    <if_sid>1</if_sid>
+    <match>File \w+ (\w+:){4,}\\.lock</match>
+    <options>no_full_log</options>
+    <description>Detected file with '.lock' extension (potential ransomware)</description>
+  </rule>
+
+  <rule id="100743" level="10">
+    <if_sid>530</if_sid>
+    <match>File created:</match>
+    <options>no_full_logl</options>
+    <description>Large number of file creations (potential ransomware activity)</description>
+  </rule>
+
+  <rule id="100744" level="12">
+    <if_sid>535</if_sid>
+    <match>File encrypted:</match>
+    <options>no_full_log</options>
+    <description>Large number of file encryptions (potential ransomware activity)</description>
+  </rule>
+
+<!-- Rule untuk deteksi perubahan registry (potential ransomware activity) -->
+  <rule id="100745" level="10">
+    <if_sid>13</if_sid>
+    <match>Registry value set:</match>
+    <options>no_full_log</options>
+    <description>Changes to registry keys (potential ransomware activity)</description>
+  </rule>
+
+<!-- Rule untuk deteksi network behaviour (potential ransomware activity) -->
+  <rule id="100746" level="10">
+    <if_sid>3</if_sid>
+    <match>Network connection detected:</match>
+    <options>no_full_log</options>
+    <description>Abnormal network connection (potential ransomware activity)</description>
+  </rule>
+
+</group>

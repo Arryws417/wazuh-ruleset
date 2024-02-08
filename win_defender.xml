@@ -1,0 +1,47 @@
+<!--Windows defender ruleset-->
+
+<group name="windows,windows_defender,">
+    <rule id="100800" level="0">
+        <if_sid>18100</if_sid>
+            <match>Microsoft-Windows-Windows Defender/Operational:</match>
+        <description>Windows Defender messages grouped.</description>
+    </rule>
+
+    <rule id="100801" level="12">
+        <if_matched_sid>100800</if_matched_sid>
+            <id>1116</id>
+        <description>Windows Defender: detected potentially unwanted software</description>
+    </rule>
+
+    <rule id="100802" level="12" frequency="5" timeframe="300">
+        <if_matched_sid>100800</if_matched_sid>
+            <id>1116</id>
+		        <same_source_ip />
+        <description>Windows Defender: detected potentially massive malware outbreak on SINGLE endpoint</description>
+    </rule>
+
+    <rule id="100803" level="12" timeframe="3600">
+        <if_matched_sid>100800</if_matched_sid>
+            <id>1116</id>
+		        <different_srcip />
+        <description>Windows Defender: detected potentially massive malware outbreak on MULTIPLE endpoints</description>
+    </rule>
+
+    <rule id="100804" level="7">
+        <if_matched_sid>100800</if_matched_sid>
+            <id>1117</id>
+        <description>Windows Defender: taken action to protect machine from unwanted software</description>
+    </rule>
+	
+	<rule id="100805" level="7">
+        <if_matched_sid>100800</if_matched_sid>
+            <id>2005</id>
+        <description>Windows Defender: Windows Defender engine version outdated</description>
+    </rule>
+	
+	<rule id="100806" level="7">
+        <if_matched_sid>100800</if_matched_sid>
+            <id>2005</id>
+        <description>Windows Defender: Windows Defender version out-of-date</description>
+    </rule>
+</group>
